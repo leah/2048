@@ -1,6 +1,6 @@
 function DataManager() {
 
-  var APP_KEY = 'zg2re9x4b5lonfi';
+  var APP_KEY = '3f1wo55197c4lrc';
 
   moment.lang('en', {
     calendar: {
