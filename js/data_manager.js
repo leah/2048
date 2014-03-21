@@ -14,7 +14,8 @@ function DataManager() {
     // Show the Dropbox login button
     document.querySelector("#login").style.display = "block";
 
-    this.emit("setup");
+    // Schedule for after the setup event handler is registered
+    window.setTimeout((function () { this.emit("setup") }).bind(this), 0);
   }
 
   // Login button listener
