@@ -98,6 +98,8 @@ DataManager.prototype.loggedIn = function (event) {
 DataManager.prototype.login = function (event) {
   event.preventDefault();
 
+  this.emit("persistLocally");
+
   this.client.authenticate(function (err) {
     if (err) { alert('Error: ' + err); return; }
     this.loggedIn();

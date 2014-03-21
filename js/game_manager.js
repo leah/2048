@@ -12,6 +12,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager, DataManager) {
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
   this.dataManager.on("setup", this.setup.bind(this));
+  this.dataManager.on("persistLocally", this.persistLocally.bind(this));
 }
 
 // Restart the game
@@ -42,6 +43,14 @@ GameManager.prototype.setup = function (savedState) {
   this.over        = false;
   this.won         = false;
   this.keepPlaying = false;
+
+  if (!savedState) {
+    var json = localStorage["2048game"];
+    if (json) {
+      savedState = JSON.parse(json);
+    }
+  }
+  delete localStorage["2048game"];
 
   if (savedState) {
     // Initialize tiles from saved game state
@@ -272,4 +281,8 @@ GameManager.prototype.serializeGameState = function () {
     score: this.score,
     grid: this.grid.serialize()
   }
+}
+
+GameManager.prototype.persistLocally = function () {
+  localStorage["2048game"] = JSON.stringify(this.serializeGameState());
 }
