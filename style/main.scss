@@ -181,7 +181,11 @@ hr {
   line-height: 42px;
 }
 
-.button {
+.game-restart {
+  text-align: center;
+}
+
+.restart-button {
   @include button;
 }
 
