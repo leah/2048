@@ -57,6 +57,10 @@ GameManager.prototype.setup = function (savedState) {
     this.addStartTiles();
   }
 
+  if (!this.movesAvailable()) {
+    this.over = true; // Game over!
+  }
+
   // Update the actuator
   this.actuate();
 };
