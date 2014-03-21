@@ -67,6 +67,11 @@ h1.title {
 
 .data-scores-container {
   clear: both;
+  display: none;
+}
+
+.high-scores-title {
+  display: none;
 }
 
 .score-container, .best-container, .data-score-container, .max-tile-container, .date-container {

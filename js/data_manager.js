@@ -183,9 +183,18 @@ DataManager.prototype.addScore = function (score, grid) {
 DataManager.prototype.updateScoreDisplay = function () {
   var scores = this.getSortedScores();
 
-  for (var i = 0; i < this.scoresCount && i < scores.length; i++) {
-    document.getElementsByClassName("data-score-container")[i].textContent = scores[i].get("score");
-    document.getElementsByClassName("max-tile-container")[i].textContent = scores[i].get("max_tile");
-    document.getElementsByClassName("date-container")[i].textContent = moment(scores[i].get("date")).calendar();
+  document.querySelector(".high-scores-title").style.display = scores.length > 0 ? "block" : "none";
+
+  for (var i = 0; i < this.scoresCount; i++) {
+    if (i < scores.length) {
+      // Display high score
+      document.getElementsByClassName("data-scores-container")[i].style.display = "block";
+      document.getElementsByClassName("data-score-container")[i].textContent = scores[i].get("score");
+      document.getElementsByClassName("max-tile-container")[i].textContent = scores[i].get("max_tile");
+      document.getElementsByClassName("date-container")[i].textContent = moment(scores[i].get("date")).calendar();
+    } else {
+      // Not enough high scores to fill the table yet
+      document.getElementsByClassName("data-scores-container")[i].style.display = "none";
+    }
   }
 }
