@@ -2,6 +2,17 @@ function DataManager() {
 
   var APP_KEY = 'zg2re9x4b5lonfi';
 
+  moment.lang('en', {
+    calendar: {
+      lastDay: '[Yesterday]',
+      sameDay: '[Today]',
+      nextDay: '',
+      lastWeek: 'MMM Do',
+      nextWeek: '',
+      sameElse: 'MMM Do'
+    }
+  });
+
   this.events = {};
   this.client = new Dropbox.Client({ key: APP_KEY });
   this.scoresCount = 3;
@@ -158,6 +169,6 @@ DataManager.prototype.updateScoreDisplay = function () {
   for (var i = 0; i < this.scoresCount && i < scores.length; i++) {
     document.getElementsByClassName("data-score-container")[i].textContent = scores[i].get("score");
     document.getElementsByClassName("max-tile-container")[i].textContent = scores[i].get("max_tile");
-    //document.getElementsByClassName("date-container")[i].textContent = scores[i].get("date");
+    document.getElementsByClassName("date-container")[i].textContent = moment(scores[i].get("date")).calendar();
   }
 }
