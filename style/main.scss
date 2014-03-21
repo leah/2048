@@ -65,7 +65,11 @@ h1.title {
   text-align: right;
 }
 
-.score-container, .best-container {
+.data-scores-container {
+  clear: both;
+}
+
+.score-container, .best-container, .data-score-container, .max-tile-container, .date-container {
   $height: 25px;
 
   position: relative;
@@ -107,12 +111,20 @@ h1.title {
   }
 }
 
-.score-container:after {
+.score-container:after, .data-score-container:after {
   content: "Score";
 }
 
 .best-container:after {
   content: "Best"
+}
+
+.max-tile-container:after {
+  content: "Max Tile"
+}
+
+.date-container:after {
+  content: "Date"
 }
 
 p {
@@ -139,6 +151,7 @@ hr {
   border-bottom: 1px solid lighten($text-color, 40%);
   margin-top: 20px;
   margin-bottom: 30px;
+  clear: both;
 }
 
 .container {
@@ -166,6 +179,10 @@ hr {
   color: $bright-text-color;
   height: 40px;
   line-height: 42px;
+}
+
+.button {
+  @include button;
 }
 
 // Game field mixin used to render CSS at different width

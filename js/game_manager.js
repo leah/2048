@@ -1,8 +1,9 @@
-function GameManager(size, InputManager, Actuator, ScoreManager) {
+function GameManager(size, InputManager, Actuator, ScoreManager, DataManager) {
   this.size         = size; // Size of the grid
   this.inputManager = new InputManager;
   this.scoreManager = new ScoreManager;
   this.actuator     = new Actuator;
+  this.dataManager  = new DataManager;
 
   this.startTiles   = 2;
 
@@ -10,7 +11,7 @@ function GameManager(size, InputManager, Actuator, ScoreManager) {
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
 
-  this.setup();
+  this.dataManager.on("setup", this.setup.bind(this));
 }
 
 // Restart the game
@@ -34,7 +35,7 @@ GameManager.prototype.isGameTerminated = function () {
 };
 
 // Set up the game
-GameManager.prototype.setup = function () {
+GameManager.prototype.setup = function (savedState) {
   this.grid        = new Grid(this.size);
 
   this.score       = 0;
@@ -42,8 +43,19 @@ GameManager.prototype.setup = function () {
   this.won         = false;
   this.keepPlaying = false;
 
-  // Add the initial tiles
-  this.addStartTiles();
+  if (savedState) {
+    // Initialize tiles from saved game state
+    this.score = savedState.score;
+    var values = savedState.grid;
+    for (var i = 0; i < values.length; i++) {
+      if (values[i] > 0) {
+        this.grid.insertTile(new Tile({x: i%this.size, y: Math.floor(i/this.size)}, values[i]));
+      }
+    }
+  } else {
+    // Add the initial tiles
+    this.addStartTiles();
+  }
 
   // Update the actuator
   this.actuate();
@@ -68,8 +80,15 @@ GameManager.prototype.addRandomTile = function () {
 
 // Sends the updated grid to the actuator
 GameManager.prototype.actuate = function () {
+
   if (this.scoreManager.get() < this.score) {
     this.scoreManager.set(this.score);
+  }
+
+  this.dataManager.saveGameState(this.serializeGameState());
+
+  if (/*this.isGameTerminated() &&*/ this.dataManager.isConnected()) {
+    this.dataManager.addScore(this.score, this.grid);
   }
 
   this.actuator.actuate(this.grid, {
@@ -243,3 +262,10 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
+
+GameManager.prototype.serializeGameState = function () {
+  return {
+    score: this.score,
+    grid: this.grid.serialize()
+  }
+}

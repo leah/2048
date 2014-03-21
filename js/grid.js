@@ -82,3 +82,19 @@ Grid.prototype.withinBounds = function (position) {
   return position.x >= 0 && position.x < this.size &&
          position.y >= 0 && position.y < this.size;
 };
+
+// Serialize game for storage
+Grid.prototype.serialize = function () {
+  var arr = [];
+  for (var x = 0; x < this.size; x++) {
+    for (var y = 0; y < this.size; y++) {
+      var cell = this.cells[x][y];
+      var value = 0;
+      if (cell) {
+        value = cell.value;
+      }
+      arr[y*this.size+x] = value;
+    }
+  }
+  return arr;
+}
