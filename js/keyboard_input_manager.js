@@ -64,6 +64,9 @@ KeyboardInputManager.prototype.listen = function () {
     }
   });
 
+  var restart = document.querySelector(".restart-button");
+  restart.addEventListener("click", this.restart.bind(this));
+
   var retry = document.querySelector(".retry-button");
   retry.addEventListener("click", this.restart.bind(this));
   retry.addEventListener(this.eventTouchend, this.restart.bind(this));
