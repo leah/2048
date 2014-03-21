@@ -13,7 +13,7 @@ $text-color: #776E65;
 $bright-text-color: #f9f6f2;
 
 $tile-color: #eee4da;
-$tile-gold-color: #edc22e;
+$tile-gold-color: #007ee5; /* Dropbox blue */
 $tile-gold-glow-color: lighten($tile-gold-color, 15%);
 
 $game-container-background: #bbada0;
@@ -179,14 +179,6 @@ hr {
   color: $bright-text-color;
   height: 40px;
   line-height: 42px;
-}
-
-.game-restart {
-  text-align: center;
-}
-
-.restart-button {
-  @include button;
 }
 
 // Game field mixin used to render CSS at different width
@@ -355,10 +347,10 @@ hr {
   // Colors for all 11 states, false = no special color
   $special-colors: false false, // 2
                    false false, // 4
-                   #f78e48 true, // 8
-                   #fc5e2e true, // 16
-                   #ff3333 true, // 32
-                   #ff0000 true, // 64
+                   #99c5db true, // 8
+                   #50cfd8 true, // 16
+                   #a1a8de true, // 32
+                   #4287df true, // 64
                    false true, // 128
                    false true, // 256
                    false true, // 512
@@ -472,8 +464,22 @@ hr {
   margin-bottom: 0;
 }
 
-.game-explanation {
+.restart-container, .login-container {
+  text-align: center;
+}
+
+.restart-button, .login {
+  @include button;
+}
+
+.high-scores, .dropbox-login {
   margin-top: 50px;
+  display: none;
+}
+
+.logout {
+  display: block;
+  margin-top: 20px;
 }
 
 @include smaller($mobile-threshold) {

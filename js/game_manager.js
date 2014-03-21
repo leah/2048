@@ -91,7 +91,7 @@ GameManager.prototype.actuate = function () {
 
   this.dataManager.saveGameState(this.serializeGameState());
 
-  if (/*this.isGameTerminated() &&*/ this.dataManager.isConnected()) {
+  if (this.isGameTerminated() && this.dataManager.isConnected()) {
     this.dataManager.addScore(this.score, this.grid);
   }
 

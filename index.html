@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>2048</title>
+  <title>Dropbox 2048</title>
 
   <link href="style/main.css" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="favicon.ico">
@@ -21,6 +21,7 @@
 <body>
   <div class="container">
     <div class="heading">
+      <div><strong>Dropbox</strong></div>
       <h1 class="title">2048</h1>
       <div class="scores-container">
         <div class="score-container">0</div>
@@ -70,32 +71,36 @@
       </div>
     </div>
 
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-    </p>
-    <p class="game-restart">
-      <a class="restart-button">Start over</a>
-    </p>
+    <div class="dropbox-login">
+      <p><strong class="important">High scores:</strong> Connect with Dropbox to save your game progress and high scores.</p>
+      <p class="login-container"><a class="login">Log in with Dropbox</a></p>
+    </div>
+    <div class="high-scores">
+      <strong class="important">High scores:</strong>
+      <div class="data-scores-container">
+        <div class="data-score-container">0</div>
+        <div class="max-tile-container">0</div>
+        <div class="date-container">0</div>
+      </div>
+      <div class="data-scores-container">
+        <div class="data-score-container">0</div>
+        <div class="max-tile-container">0</div>
+        <div class="date-container">0</div>
+      </div>
+      <div class="data-scores-container">
+        <div class="data-score-container">0</div>
+        <div class="max-tile-container">0</div>
+        <div class="date-container">0</div>
+      </div>
+      <a class="logout">Log out of Dropbox</a>
+    </div>
     <hr>
     <p>
-    <strong class="important">High scores:</strong> Connect with Dropbox to save your game progress and high scores.
-    <button id="login" style="display:none;">Log in with Dropbox</button>
+      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
     </p>
-    <div class="data-scores-container">
-      <div class="data-score-container">0</div>
-      <div class="max-tile-container">0</div>
-      <div class="date-container">0</div>
-    </div>
-    <div class="data-scores-container">
-      <div class="data-score-container">0</div>
-      <div class="max-tile-container">0</div>
-      <div class="date-container">0</div>
-    </div>
-    <div class="data-scores-container">
-      <div class="data-score-container">0</div>
-      <div class="max-tile-container">0</div>
-      <div class="date-container">0</div>
-    </div>
+    <p class="restart-container">
+      <a class="restart-button">Start over</a>
+    </p>
     <hr>
     <p>
     <strong class="important">Note:</strong> This is NOT the official version of 2048. You can find the original version at <a href="http://git.io/2048">http://git.io/2048.</a> This site is a derivative, and should be played with wild abandon.
