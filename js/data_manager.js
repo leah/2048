@@ -22,16 +22,20 @@ function DataManager() {
   if (this.client.isAuthenticated()) {
     this.loggedIn();
   } else {
-    // Show the Dropbox login button
-    document.querySelector("#login").style.display = "block";
+    // Show the Dropbox login
+    document.querySelector(".dropbox-login").style.display = "block";
 
     // Schedule for after the setup event handler is registered
     window.setTimeout((function () { this.emit("setup") }).bind(this), 0);
   }
 
-  // Login button listener
-  var login = document.querySelector("#login");
+  // Login listener
+  var login = document.querySelector(".login");
   login.addEventListener("click", this.login.bind(this));
+
+  // Logout listener
+  var logout = document.querySelector(".logout");
+  logout.addEventListener("click", this.logout.bind(this));
 }
 
 DataManager.prototype.on = function (event, callback) {
@@ -58,8 +62,9 @@ DataManager.prototype.isConnected = function () {
 // Perform actions after user is determined to be logged in
 DataManager.prototype.loggedIn = function (event) {
 
-  // Hide the Dropbox login button
-  document.querySelector("#login").style.display = "none";
+  // Show the high scores
+  document.querySelector(".dropbox-login").style.display = "none";
+  document.querySelector(".high-scores").style.display = "block";
 
   // Open the datastore manager
   this.datastoreManager = new Dropbox.Datastore.DatastoreManager(this.client);
@@ -97,6 +102,18 @@ DataManager.prototype.login = function (event) {
     if (err) { alert('Error: ' + err); return; }
     this.loggedIn();
   });
+};
+
+// Log out of Dropbox
+DataManager.prototype.logout = function (event) {
+  console.log("logout");
+  event.preventDefault();
+  this.client.signOut();
+  this.datastore = null;
+
+  // Show the Dropbox login
+  document.querySelector(".high-scores").style.display = "none";
+  document.querySelector(".dropbox-login").style.display = "block";
 };
 
 // Save game state

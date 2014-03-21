@@ -181,14 +181,6 @@ hr {
   line-height: 42px;
 }
 
-.game-restart {
-  text-align: center;
-}
-
-.restart-button {
-  @include button;
-}
-
 // Game field mixin used to render CSS at different width
 @mixin game-field {
   .game-container {
@@ -472,8 +464,22 @@ hr {
   margin-bottom: 0;
 }
 
-.game-explanation {
+.restart-container, .login-container {
+  text-align: center;
+}
+
+.restart-button, .login {
+  @include button;
+}
+
+.high-scores, .dropbox-login {
   margin-top: 50px;
+  display: none;
+}
+
+.logout {
+  display: block;
+  margin-top: 20px;
 }
 
 @include smaller($mobile-threshold) {
