@@ -98,10 +98,10 @@ GameManager.prototype.actuate = function () {
     this.scoreManager.set(this.score);
   }
 
-  this.dataManager.saveGameState(this.serializeGameState());
-
-  if (this.isGameTerminated() && this.dataManager.isConnected()) {
+  if (this.dataManager.isConnected()) {
+    // Check high score prior to saving game state
     this.dataManager.addScore(this.score, this.grid);
+    this.dataManager.saveGameState(this.serializeGameState());
   }
 
   this.actuator.actuate(this.grid, {

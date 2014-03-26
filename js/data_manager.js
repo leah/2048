@@ -148,6 +148,12 @@ DataManager.prototype.addScore = function (score, grid) {
 
   if (this.datastore) {
 
+    // Check if current game score has increased
+    var record = this.datastore.getTable("state").get("current_game");
+    if (record && record.get("score") >= score) {
+      return;
+    }
+
     // New high score?
     var scores = this.getSortedScores();
     var lastIndex = Math.min(scores.length, this.scoresCount) - 1;
