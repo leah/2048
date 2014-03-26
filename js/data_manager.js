@@ -127,7 +127,10 @@ DataManager.prototype.saveGameState = function (state) {
 // Clear game state
 DataManager.prototype.clearGameState = function (state) {
   if (this.datastore) {
-    this.datastore.getTable("state").getOrInsert("current_game").deleteRecord();
+    var record = this.datastore.getTable("state").get("current_game");
+    if (record !== null) {
+      record.deleteRecord();
+    }
   }
 };
 
