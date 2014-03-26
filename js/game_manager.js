@@ -19,6 +19,9 @@ function GameManager(size, InputManager, Actuator, ScoreManager, DataManager) {
 GameManager.prototype.restart = function () {
   this.actuator.continue();
   this.setup();
+  if (this.dataManager.isConnected()) {
+    this.dataManager.clearGameState();
+  }
 };
 
 // Keep playing after winning

@@ -108,7 +108,6 @@ DataManager.prototype.login = function (event) {
 
 // Log out of Dropbox
 DataManager.prototype.logout = function (event) {
-  console.log("logout");
   event.preventDefault();
   this.client.signOut();
   this.datastore = null;
@@ -122,6 +121,13 @@ DataManager.prototype.logout = function (event) {
 DataManager.prototype.saveGameState = function (state) {
   if (this.datastore) {
     this.datastore.getTable("state").getOrInsert("current_game").update(state);
+  }
+};
+
+// Clear game state
+DataManager.prototype.clearGameState = function (state) {
+  if (this.datastore) {
+    this.datastore.getTable("state").getOrInsert("current_game").deleteRecord();
   }
 };
 
@@ -149,9 +155,19 @@ DataManager.prototype.addScore = function (score, grid) {
   if (this.datastore) {
 
     // Check if current game score has increased
-    var record = this.datastore.getTable("state").get("current_game");
-    if (record && record.get("score") >= score) {
-      return;
+    var currentGame = this.datastore.getTable("state").get("current_game");
+    if (currentGame) {
+
+      // Game score hasn't increased
+      if (currentGame.get("score") >= score) { return; }
+
+      // Check if current game is already in the high scores list and update score
+      var scoreId = currentGame.get("score_id");
+      if (scoreId && this.datastore.getTable("scores").get(scoreId)) {
+        this.datastore.getTable("scores").get(scoreId).set("score", score);
+        this.updateScoreDisplay();
+        return;
+      }
     }
 
     // New high score?
@@ -170,11 +186,16 @@ DataManager.prototype.addScore = function (score, grid) {
       });
 
       // Add new high score record in datastore
-      this.datastore.getTable("scores").insert({
+      var scoreRecord = this.datastore.getTable("scores").insert({
         "score" : score,
         "max_tile": maxTile,
         "date": new Date(),
       });
+
+      // Save the associated high score in the current game record
+      if (currentGame) {
+        currentGame.set("score_id", scoreRecord.getId());
+      }
 
       this.updateScoreDisplay();
     }
