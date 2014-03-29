@@ -159,6 +159,16 @@ DataManager.prototype.addScore = function (score, grid) {
 
     // Check if current game score has increased
     var currentGame = this.datastore.getTable("state").get("current_game");
+    // Find max tile
+    var maxTile = 0;
+    grid.eachCell(function(x, y, tile) {
+        if (tile) {
+            if (tile.value > maxTile) {
+                maxTile = tile.value;
+            }
+        }
+    });
+
     if (currentGame) {
 
       // Game score hasn't increased
@@ -168,6 +178,7 @@ DataManager.prototype.addScore = function (score, grid) {
       var scoreId = currentGame.get("score_id");
       if (scoreId && this.datastore.getTable("scores").get(scoreId)) {
         this.datastore.getTable("scores").get(scoreId).set("score", score);
+        this.datastore.getTable("scores").get(scoreId).set("max_tile", maxTile);
         this.updateScoreDisplay();
         return;
       }
@@ -177,16 +188,6 @@ DataManager.prototype.addScore = function (score, grid) {
     var scores = this.getSortedScores();
     var lastIndex = Math.min(scores.length, this.scoresCount) - 1;
     if (scores.length < this.scoresCount || scores[lastIndex].get("score") < score) {
-
-      // Find max tile
-      var maxTile = 0;
-      grid.eachCell(function(x, y, tile) {
-        if (tile) {
-          if (tile.value > maxTile) {
-            maxTile = tile.value;
-          }
-        }
-      });
 
       // Add new high score record in datastore
       var scoreRecord = this.datastore.getTable("scores").insert({
