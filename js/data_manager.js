@@ -155,17 +155,17 @@ DataManager.prototype.getSortedScores = function () {
 // Find max tile
 DataManager.prototype.maxTile = function(grid) {
 
-    var maxTile = 0;
-    grid.eachCell(function(x, y, tile) {
-        if (tile) {
-            if (tile.value > maxTile) {
-                maxTile = tile.value;
-            }
-        }
-    });
+  var maxTile = 0;
+  grid.eachCell(function(x, y, tile) {
+      if (tile) {
+          if (tile.value > maxTile) {
+              maxTile = tile.value;
+          }
+      }
+  });
 
-    return maxTile;
-  };
+  return maxTile;
+};
 
 // Possibly add a new high score
 DataManager.prototype.addScore = function (score, grid) {
