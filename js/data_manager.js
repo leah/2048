@@ -152,6 +152,21 @@ DataManager.prototype.getSortedScores = function () {
   return scores;
 };
 
+// Find max tile
+DataManager.prototype.maxTile = function(grid) {
+
+    var maxTile = 0;
+    grid.eachCell(function(x, y, tile) {
+        if (tile) {
+            if (tile.value > maxTile) {
+                maxTile = tile.value;
+            }
+        }
+    });
+
+    return maxTile;
+  };
+
 // Possibly add a new high score
 DataManager.prototype.addScore = function (score, grid) {
 
@@ -168,6 +183,7 @@ DataManager.prototype.addScore = function (score, grid) {
       var scoreId = currentGame.get("score_id");
       if (scoreId && this.datastore.getTable("scores").get(scoreId)) {
         this.datastore.getTable("scores").get(scoreId).set("score", score);
+        this.datastore.getTable("scores").get(scoreId).set("max_tile", this.maxTile(grid));
         this.updateScoreDisplay();
         return;
       }
@@ -178,20 +194,10 @@ DataManager.prototype.addScore = function (score, grid) {
     var lastIndex = Math.min(scores.length, this.scoresCount) - 1;
     if (scores.length < this.scoresCount || scores[lastIndex].get("score") < score) {
 
-      // Find max tile
-      var maxTile = 0;
-      grid.eachCell(function(x, y, tile) {
-        if (tile) {
-          if (tile.value > maxTile) {
-            maxTile = tile.value;
-          }
-        }
-      });
-
       // Add new high score record in datastore
       var scoreRecord = this.datastore.getTable("scores").insert({
         "score" : score,
-        "max_tile": maxTile,
+        "max_tile": this.maxTile(grid),
         "date": new Date(),
       });
 
